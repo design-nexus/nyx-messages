@@ -1,0 +1,9 @@
+{
+  "application": "messages",
+  "directory": "messages",
+  "packages": ["nyx-messages"],
+  "manifest": "Cargo.toml",
+  "prepare": [],
+  "binaries": [],
+  "test_commands": [["cargo", "test", "--locked", "-p", "nyx-messages", "--bin", "nyx-messages"]]
+}

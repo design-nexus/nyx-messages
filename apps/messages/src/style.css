@@ -1,0 +1,513 @@
+/* Nyx Messages — Design 2.0 option A. Matches mockups/messages. */
+
+.messages-window {
+  min-width: 520px;
+  min-height: 420px;
+}
+
+/* Kill leftover air between the window header and the filter row. */
+window.messages-window .app-frame > .app-body {
+  margin-top: 0;
+  padding-top: 0;
+}
+window.messages-window .app-page {
+  margin-top: 0;
+}
+
+/* List sits on the panel (AppFrame sidebar) — no sheet border around it. */
+.messages-list {
+  min-width: 200px;
+  background: @theme_panel;
+  padding: 0 0 8px;
+}
+
+/* Sort row top lines up with the chat sheet's top edge; no hairline under it. */
+.messages-list-tools {
+  padding: 0 12px 6px;
+}
+
+/* Chat is the sheet — flush to its edges (composer / thread own their pad). */
+.messages-chat {
+  min-width: 0;
+}
+.messages-list-scroll {
+  padding: 4px 0;
+}
+
+/* Kill ListBox chrome — hover/selection live only on .messages-crow */
+.messages-list-box {
+  background: transparent;
+  box-shadow: none;
+}
+/* Same horizontal inset as .messages-list-tools (12px). Theme min-heights and
+ * row padding were stacking into uneven gaps — zero them out. */
+window.messages-window .messages-list-box > row {
+  padding: 0;
+  margin: 0 12px;
+  min-height: 0;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+}
+window.messages-window .messages-list-box > row:hover,
+window.messages-window .messages-list-box > row:selected,
+window.messages-window .messages-list-box > row:selected:hover,
+window.messages-window .messages-list-box > row:focus,
+window.messages-window .messages-list-box > row:focus-within {
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  min-height: 0;
+}
+
+/* Straight avatar rail: face (40) + padding = even rows; no optional chips. */
+.messages-crow {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 7px;
+}
+.messages-crow:hover {
+  background-color: alpha(@theme_app_accent, 0.08);
+}
+.messages-crow.selected {
+  background-color: alpha(@theme_app_accent, 0.18);
+}
+.messages-crow.selected:hover {
+  background-color: alpha(@theme_app_accent, 0.18);
+}
+
+/* Soft-tile faces: the Label IS the tile. Theme label padding shoves
+ * the glyph off-center — zero it. */
+.messages-face {
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0;
+  margin: 0;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.923em;
+}
+.messages-face.sm {
+  min-width: 28px;
+  min-height: 28px;
+  font-size: 0.77em;
+}
+.messages-face.sw-0 { background-color: alpha(#3d8ae8, 0.15); color: #3d8ae8; }
+.messages-face.sw-1 { background-color: alpha(#8b6cf0, 0.15); color: #8b6cf0; }
+.messages-face.sw-2 { background-color: alpha(#c95fc6, 0.15); color: #c95fc6; }
+.messages-face.sw-3 { background-color: alpha(#f2655f, 0.15); color: #f2655f; }
+.messages-face.sw-4 { background-color: alpha(#f5875a, 0.15); color: #f5875a; }
+.messages-face.sw-5 { background-color: alpha(#eeb43f, 0.15); color: #eeb43f; }
+.messages-face.sw-6 { background-color: alpha(#59d45b, 0.15); color: #59d45b; }
+.messages-face.sw-7 { background-color: alpha(#3cc4c9, 0.15); color: #3cc4c9; }
+
+.messages-crow-name {
+  font-weight: 600;
+  min-width: 0;
+}
+.messages-crow-when {
+  color: @theme_text_tertiary;
+  font-size: 0.846em;
+  min-width: 2.6em;
+}
+.messages-crow-preview {
+  color: @theme_dim_text;
+  font-size: 0.923em;
+  min-width: 0;
+}
+.messages-crow-meta { color: @theme_text_tertiary; }
+.messages-crow-meta.st { color: @theme_warning; }
+
+.messages-unread {
+  min-width: 20px;
+  min-height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background-color: @theme_app_accent;
+  color: @theme_bg;
+  font-size: 0.77em;
+  font-weight: 700;
+}
+
+.messages-hdr-person {
+  min-width: 0;
+}
+.messages-hdr-name { font-weight: 600; }
+.messages-hdr-sub {
+  color: @theme_text_tertiary;
+  font-size: 0.846em;
+}
+
+.messages-phone-pill {
+  min-height: 28px;
+  padding: 0 10px 0 8px;
+  border-radius: 14px;
+  background-color: @field;
+  color: @theme_dim_text;
+  font-size: 0.846em;
+  margin-right: 4px;
+}
+.messages-phone-pill image.ok { color: @theme_success; }
+
+/* Half-screen: labels are hidden in code; just tighten padding */
+window.messages-window.narrow .messages-phone-pill {
+  padding: 0 8px;
+}
+window.messages-window.narrow .app-header button.new-button {
+  padding: 0 6px;
+  min-width: 28px;
+}
+window.messages-window.narrow .messages-list {
+  min-width: 160px;
+}
+window.messages-window.narrow .messages-list-box > row {
+  margin: 0 8px;
+}
+window.messages-window.narrow .messages-thread {
+  padding: 10px 10px 8px;
+}
+window.messages-window.narrow .messages-composer {
+  padding: 8px 8px 10px;
+}
+window.messages-window.narrow .messages-file {
+  min-width: 0;
+}
+window.messages-window.narrow .messages-empty {
+  padding: 16px;
+}
+
+.messages-page {
+  min-width: 0;
+}
+
+.messages-thread-shell {
+  min-width: 0;
+}
+
+.messages-thread {
+  padding: 14px 18px 10px;
+}
+
+.messages-day {
+  margin: 8px 0 4px;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background-color: @field;
+  color: @theme_dim_text;
+  font-size: 0.846em;
+  font-weight: 600;
+}
+
+.messages-bubble-row {
+  margin: 4px 0 0;
+}
+.messages-bubble-row.stacked {
+  margin-top: 2px;
+}
+.messages-bubble-cluster {
+  min-width: 0;
+}
+.messages-bubble {
+  padding: 7px 11px 6px;
+  border-radius: 14px 14px 14px 5px;
+  background-color: @theme_card;
+  box-shadow: inset 0 0 0 1px @hairline;
+  min-width: 0;
+}
+.messages-bubble.me {
+  background-color: alpha(@theme_app_accent, 0.22);
+  box-shadow: none;
+  border-radius: 14px 14px 5px 14px;
+}
+.messages-bubble-who {
+  font-weight: 600;
+  font-size: 0.923em;
+  margin-bottom: 2px;
+  color: @theme_app_accent;
+}
+.messages-bubble-who.sw-0 { color: #3d8ae8; }
+.messages-bubble-who.sw-1 { color: #8b6cf0; }
+.messages-bubble-who.sw-2 { color: #c95fc6; }
+.messages-bubble-who.sw-3 { color: #f2655f; }
+.messages-bubble-who.sw-4 { color: #f5875a; }
+.messages-bubble-who.sw-5 { color: #eeb43f; }
+.messages-bubble-who.sw-6 { color: #59d45b; }
+.messages-bubble-who.sw-7 { color: #3cc4c9; }
+.messages-bubble-body {
+  margin: 0 8px 2px 0;
+  line-height: 1.45;
+}
+.messages-bubble-foot {
+  color: @theme_text_tertiary;
+  font-size: 0.77em;
+}
+.messages-bubble-foot image.messages-status.read,
+.messages-bubble-foot image.messages-status.delivered {
+  color: @theme_app_accent;
+}
+.messages-bubble-foot image.messages-status.sent,
+.messages-bubble-foot image.messages-status.sending {
+  color: @theme_text_tertiary;
+}
+.messages-bubble-foot image.messages-status.failed,
+.messages-bubble-row.failed .messages-bubble {
+  color: #e35d5d;
+}
+.messages-reactions {
+  margin: 0 0 0 36px;
+  padding: 0 2px;
+}
+.messages-bubble-row.me .messages-reactions {
+  margin-left: 0;
+  margin-right: 2px;
+}
+.messages-reaction {
+  padding: 1px 6px;
+  border-radius: 10px;
+  background-color: @field;
+  box-shadow: inset 0 0 0 1px @hairline;
+  font-size: 0.85em;
+}
+.messages-reaction.mine {
+  background-color: alpha(@theme_app_accent, 0.18);
+}
+.messages-typing {
+  padding: 0 18px 4px;
+  color: @theme_text_tertiary;
+  font-size: 1.2em;
+}
+.messages-thread-find {
+  padding: 6px 12px;
+  background-color: @theme_card;
+  box-shadow: inset 0 -1px 0 @hairline;
+}
+.messages-find-hit .messages-bubble {
+  box-shadow: inset 0 0 0 1px alpha(@theme_app_accent, 0.45);
+}
+.messages-find-current .messages-bubble {
+  box-shadow: inset 0 0 0 2px @theme_app_accent;
+}
+.messages-composer-icon {
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+  color: @theme_text_tertiary;
+}
+.messages-image-ph {
+  border-radius: 10px;
+  background-color: @field;
+  color: @theme_text_tertiary;
+}
+.messages-image-att {
+  margin: 4px 0 2px;
+}
+.messages-image-att button.messages-save {
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+  border-radius: 8px;
+}
+
+.messages-empty {
+  padding: 24px 28px;
+}
+
+.messages-file {
+  margin: 4px 0 2px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background-color: @field;
+  min-width: 160px;
+}
+window.messages-window.narrow .messages-file {
+  min-width: 0;
+}
+
+.messages-link-preview {
+  margin: 6px 0 2px;
+  border-radius: 10px;
+  background-color: @field;
+  box-shadow: inset 0 0 0 1px @hairline;
+  min-width: 0;
+}
+.messages-link-preview:hover {
+  background-color: alpha(@theme_app_accent, 0.10);
+}
+.messages-link-img {
+  min-height: 96px;
+  border-radius: 10px 10px 0 0;
+  background-size: cover;
+  background-position: center;
+}
+.messages-link-body {
+  padding: 8px 10px 9px;
+}
+.messages-link-host {
+  color: @theme_text_tertiary;
+  font-size: 0.77em;
+  margin-bottom: 2px;
+}
+.messages-link-title {
+  font-weight: 600;
+  font-size: 0.923em;
+}
+.messages-link-desc {
+  color: @theme_dim_text;
+  font-size: 0.846em;
+  margin-top: 2px;
+}
+.messages-file-icon {
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 9px;
+  background-color: @theme_app_accent;
+  color: @theme_bg;
+}
+.messages-file-name { font-weight: 600; }
+.messages-file-meta {
+  color: @theme_text_tertiary;
+  font-size: 0.846em;
+}
+
+.messages-composer {
+  padding: 10px 14px 12px;
+}
+.messages-composer-field {
+  padding: 0 6px;
+  border-radius: 21px;
+  background-color: @theme_card;
+  box-shadow: inset 0 0 0 1px @hairline;
+  min-height: 42px;
+}
+.messages-composer-entry,
+.messages-composer-entry > text {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  min-height: 0;
+}
+.messages-composer-entry {
+  padding: 10px 4px;
+  line-height: 1.35;
+}
+.messages-composer-scroll {
+  background: transparent;
+}
+.messages-composer-placeholder {
+  padding: 0 4px;
+  color: @theme_text_tertiary;
+}
+.messages-composer-field button.icon-button {
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+}
+
+window.messages-window button.messages-send {
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0;
+  border-radius: 12px;
+  background: @theme_app_accent;
+  background-color: @theme_app_accent;
+  color: @theme_bg;
+  box-shadow: none;
+  border: none;
+}
+window.messages-window button.messages-send:hover {
+  background: @theme_app_accent;
+  background-color: @theme_app_accent;
+  filter: brightness(1.1);
+}
+window.messages-window button.messages-send image {
+  color: @theme_bg;
+}
+
+.messages-empty-title {
+  font-weight: 600;
+  font-size: 1.154em;
+}
+.messages-empty-body { color: @theme_dim_text; }
+
+/* New = mockup .newbtn: 28px tall, key dimmer/smaller than label */
+window.messages-window .app-header button.new-button {
+  min-height: 28px;
+  padding: 0 10px 0 8px;
+  border-radius: 7px;
+  background: @field;
+  box-shadow: inset 0 0 0 1px @hairline;
+  font-weight: 500;
+}
+window.messages-window .app-header button.new-button label {
+  font-weight: 500;
+}
+window.messages-window .app-header button.new-button label.key-hint {
+  margin-left: 2px;
+  font-weight: 400;
+  color: @theme_text_tertiary;
+  font-size: 0.846em;
+  opacity: 0.85;
+}
+
+/* Pair / Gaia */
+.messages-pair {
+  background: @theme_bg;
+}
+.messages-pair-panel {
+  padding: 32px 28px;
+}
+.messages-pair-title {
+  font-weight: 600;
+  font-size: 1.35em;
+}
+.messages-pair-body {
+  color: @theme_dim_text;
+}
+.messages-pair-status {
+  color: @theme_dim_text;
+  margin-top: 4px;
+}
+.messages-pair-emoji {
+  font-size: 3.2em;
+  margin: 12px 0;
+}
+.messages-pair-webbar {
+  padding: 10px 12px;
+  border-bottom: 1px solid alpha(@theme_text, 0.09);
+}
+
+/* Pending attachment chip above the composer */
+.messages-attach-chip {
+  margin: 0 14px -2px;
+  padding: 2px 4px 2px 10px;
+  border-radius: 14px;
+  background-color: @field;
+  box-shadow: inset 0 0 0 1px @hairline;
+  color: @theme_dim_text;
+  font-size: 0.923em;
+}
+.messages-attach-chip button.messages-attach-remove {
+  min-width: 24px;
+  min-height: 24px;
+  padding: 0;
+}
+
+/* Failed send: retry / delete beside the status icon */
+.messages-bubble-foot button.messages-failed-action {
+  min-width: 22px;
+  min-height: 22px;
+  padding: 0;
+  color: #e35d5d;
+}
+
+/* Link from an unknown sender: host only until the user loads the preview */
+.messages-link-stub {
+  padding: 4px 4px 4px 10px;
+}
+.messages-link-stub .messages-link-host {
+  margin-bottom: 0;
+  font-size: 0.846em;
+}

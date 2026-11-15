@@ -1,0 +1,10 @@
+nyx-messagesd
+Copyright (c) Ken Smith
+
+This binary includes libgm from mautrix-gmessages
+(https://github.com/mautrix/gmessages), Copyright (c) Tulir Asokan and
+contributors, licensed under the GNU Affero General Public License v3.0.
+See LICENSE.AGPL.
+
+The Nyx Messages GTK application (nyx-messages) is separately licensed
+under the MIT License and does not link against libgm.

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=Messages
+GenericName=SMS and RCS
+Comment=Text messages from your phone
+Exec=nyx-messages
+Icon=io.github.design_nexus.nyx.Messages
+Terminal=false
+Categories=Network;Chat;GTK;
+Keywords=sms;rcs;text;messages;phone;
+StartupNotify=true
+StartupWMClass=io.github.design_nexus.nyx.Messages
+SingleMainWindow=true
+DBusActivatable=false
