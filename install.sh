@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
-# Install Nyx apps.
+# Install Nyx Messages (the app and its nyx-messagesd daemon).
 #
-#   curl -fsSL https://raw.githubusercontent.com/design-nexus/nyx/main/install.sh | bash -s -- music pdf
-#   curl -fsSL https://raw.githubusercontent.com/design-nexus/nyx/main/install.sh | bash -s -- all
+#   curl -fsSL https://raw.githubusercontent.com/design-nexus/nyx-messages/main/install.sh | bash
 #
-# Apps: settings contacts tasks torrents pdf notepad music media-player theater chat fonts archive office photos glimpse store git passwords weather news capture pulse
 # Options:
-#   --default  make the installed apps open their file types
-#   --gear     also add the Settings gear to the Omarchy bar (with settings)
 #   --list     list the apps and exit
 set -euo pipefail
 
@@ -77,7 +73,7 @@ for a in "$@"; do
     --default) make_default=true ;;
     --gear) gear=true ;;
     --list) printf '%s\n' "${ALL[@]}"; exit 0 ;;
-    -h | --help) sed -n '2,13p' "$0" 2>/dev/null | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -h | --help) sed -n '2,7p' "$0" 2>/dev/null | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) app_info "$a" >/dev/null || die "No app called '$a'. Apps: ${ALL[*]}"; apps+=("$a") ;;
   esac
 done

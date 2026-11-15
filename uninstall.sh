@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
-# Remove Nyx apps.
+# Remove Nyx Messages.
 #
-#   ./uninstall.sh music pdf          remove those apps
-#   ./uninstall.sh all --purge        remove every app and its settings and data
+#   curl -fsSL https://raw.githubusercontent.com/design-nexus/nyx-messages/main/uninstall.sh | bash
+#   ... | bash -s -- --purge     also remove its settings, data and phone pairing
 set -euo pipefail
 
-ALL=(contacts)
+ALL=(messages)
 say() { printf '\033[1m==>\033[0m %s\n' "$*"; }
 die() { printf '\033[31m==>\033[0m %s\n' "$*" >&2; exit 1; }
 
-if [[ $# == 0 || ${1:-} == --* ]]; then set -- contacts "$@"; fi
+if [[ $# == 0 || ${1:-} == --* ]]; then set -- messages "$@"; fi
 apps=() purge=false
 for a in "$@"; do
   case $a in
@@ -23,7 +23,7 @@ done
 ((${#apps[@]})) || die "Name the apps to remove (or 'all'): ${ALL[*]}"
 
 for selected in "${apps[@]}"; do
-  [[ $selected == contacts ]] || die "This repository removes only contacts."
+  [[ $selected == messages ]] || die "This repository removes only messages."
 done
 bin="$HOME/.local/bin"
 share="${XDG_DATA_HOME:-$HOME/.local/share}"
@@ -39,8 +39,14 @@ for a in "${apps[@]}"; do
     news) bins="nyx-news nyx-news-glimpse" ids="News" ;;
     capture) bins="nyx-capture nyx-capture-glimpse" ids="Capture" ;;
     pulse) bins="nyx-pulse nyx-pulse-glimpse" ids="Pulse" ;;
+    messages) bins="nyx-messages nyx-messagesd nyx-messagesd.LICENSE.AGPL nyx-messagesd.NOTICE" ids="Messages" ;;
     *) bins="nyx-$a" ids="${a^}" ;;
   esac
+  if [[ $a == messages ]]; then
+    systemctl --user disable --now nyx-messagesd.service 2>/dev/null || true
+    rm -f "$config/systemd/user/nyx-messagesd.service"
+    systemctl --user daemon-reload 2>/dev/null || true
+  fi
   if [[ $a == glimpse ]]; then
     systemctl --user disable --now nyx-glimpsed.service 2>/dev/null || true
     "$bin/nyx-glimpse" integration restore
