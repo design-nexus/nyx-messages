@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"crypto/sha256"
 	"encoding/base64"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"os"
@@ -1078,6 +1080,18 @@ func (c *Core) mediaDownload(req Request) Response {
 	if err != nil {
 		return Response{OK: false, Error: "bad key_b64"}
 	}
+	// Cache, not /tmp: downloads persist across reboots and don't fill the tmpfs.
+	// Prefix the media id's hash so two attachments both called "image.jpg" don't
+	// overwrite each other; an existing file is reused instead of downloaded again.
+	name := req.Name
+	if name == "" {
+		name = req.MediaID
+	}
+	sum := sha256.Sum256([]byte(req.MediaID))
+	path := filepath.Join(mediaCacheDir(), hex.EncodeToString(sum[:6])+"-"+filepath.Base(name))
+	if st, err := os.Stat(path); err == nil && st.Size() > 0 {
+		return Response{OK: true, Result: map[string]any{"path": path}}
+	}
 	c.mu.Lock()
 	cli := c.client
 	c.mu.Unlock()
@@ -1088,15 +1102,15 @@ func (c *Core) mediaDownload(req Request) Response {
 	if err != nil {
 		return Response{OK: false, Error: err.Error()}
 	}
-	dir := filepath.Join(os.TempDir(), "nyx-messages-media")
-	_ = os.MkdirAll(dir, 0o700)
-	name := req.Name
-	if name == "" {
-		name = req.MediaID
+	if err := os.MkdirAll(filepath.Dir(path), 0o700); err != nil {
+		return Response{OK: false, Error: err.Error()}
 	}
-	name = filepath.Base(name)
-	path := filepath.Join(dir, name)
-	if err := os.WriteFile(path, data, 0o600); err != nil {
+	// Write then rename, so a half-written file is never served as cached.
+	tmp := path + ".part"
+	if err := os.WriteFile(tmp, data, 0o600); err != nil {
+		return Response{OK: false, Error: err.Error()}
+	}
+	if err := os.Rename(tmp, path); err != nil {
 		return Response{OK: false, Error: err.Error()}
 	}
 	return Response{OK: true, Result: map[string]any{"path": path}}
@@ -1177,4 +1191,17 @@ func cloneMap(in map[string]string) map[string]string {
 		out[k] = v
 	}
 	return out
+}
+
+// mediaCacheDir is $XDG_CACHE_HOME/nyx-messages/media (~/.cache/... by default).
+func mediaCacheDir() string {
+	base := os.Getenv("XDG_CACHE_HOME")
+	if base == "" {
+		if home, err := os.UserHomeDir(); err == nil {
+			base = filepath.Join(home, ".cache")
+		} else {
+			base = os.TempDir()
+		}
+	}
+	return filepath.Join(base, "nyx-messages", "media")
 }
